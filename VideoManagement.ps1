@@ -90,9 +90,9 @@ function Get-VideoDuration ($fullPath) {
    Convert an avi to mp4 file. It wraps AviToMp3 and provides metrics
    about the conversion.
 .Example
-   Convert-VideoFile "c:\temp\source.avi" "c:\temp\target.mp4"
+   Convert-FromAviToMp4File "c:\temp\source.avi" "c:\temp\target.mp4"
 #>
-function Convert-VideoFile ($aviSource, $mp4target) {
+function Convert-FromAviToMp4File ($aviSource, $mp4target) {
     $source
     $target
     start-sleep 2
@@ -123,37 +123,39 @@ function Convert-VideoFile ($aviSource, $mp4target) {
     start-sleep 5
 }
 
-# Entry point...
-# Given a folder with a set of avi files, convert each of those files to mp4 format,in the same folder.
-# If the target mp4 name already exists, then skip.
-# Following the conversion the file creation and amendment times get copied from the source/avi to the target/mp4.
-# And finally, the target name (minus extension) is copied to the clipboard so that you can check the details in Explorer/search.
-# The rootnames rename the same, only the extension changes.
-# https://blogs.technet.microsoft.com/heyscriptingguy/2012/06/01/use-powershell-to-modify-file-access-time-stamps/
+<#
+.Synopsis
+   Convert a batch of avi files to mp4 file.
+.Description
+   Given a folder with a set of avi files, convert each of those files to mp4 format,in the same folder.
+   If the target mp4 name already exists, then skip.
+   Following the conversion the file creation and amendment times get copied from the source/avi to the target/mp4.
+   And finally, the target name (minus extension) is copied to the clipboard so that you can check the details in Explorer/search.
+   The rootnames rename the same, only the extension changes.
+.Example
+   Convert-AviBatchToMp4 -v "G:\VideosCollection\TheRest" -h "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
+#>
+function Convert-AviBatchToMp4 ($videoFolder, $handbrakeFolder) {
+   $logFile = "$currDir/Conversion.$(Get-Random).log"
 
+   cd $videoFolder
+   Get-FileTypeCount -folder $videoFolder -extension "avi" | Out-File -Append $logFile 
+   Get-FileTypeCount -folder $videoFolder -extension "mp4" | Out-File -Append $logFile 
 
-$currDir = "G:\VideosCollection\TheRest"
-$handBrakeDir= "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
-$logFile = "$currDir/Conversion.$(Get-Random).log"
+   $aviList = gci -Filter *.avi
+   #$aviList = gci -Filter "2000-05-30 19.03.13 2001 Em grandad Wells paper plane.avi"
 
-cd $currDir
-Get-FileTypeCount -folder $currDir -extension "avi" | Out-File -Append $logFile 
-Get-FileTypeCount -folder $currDir -extension "mp4" | Out-File -Append $logFile 
+   $aviList | % {
+       $currentAvi = $_
+       $baseName = $currentAvi.BaseName
+       $source = "$videoFolder/$baseName.avi"
+       $target = "$videoFolder/$baseName.mp4"
 
-$aviList = gci -Filter *.avi
-#$aviList = gci -Filter "2000-05-30 19.03.13 2001 Em grandad Wells paper plane.avi"
-
-$aviList | % {
-    $currentAvi = $_
-    $baseName = $currentAvi.BaseName
-    $source = "$currDir/$baseName.avi"
-    $target = "$currDir/$baseName.mp4"
-
-    if (!( Test-Path $target)) {
-        Convert-File $source $target
-    }
-    Copy-SourceTimeStampToTarget -sourceAvi $source -targetMp4 $target
+       if (!( Test-Path $target)) {
+           Convert-File $source $target
+       }
+       Copy-SourceTimeStampToTarget -sourceAvi $source -targetMp4 $target
+   }
 }
-
 
 #cmd.exe '$handBrakeDir\HandBrakeCLI.exe -Z "Fast 1080p30" -i "G:\VideosCollection\Videos\2002-03-03 15.12.42 emma4.avi" -o "C:\MpegUtil\first2.mp4" --verbose=1'
