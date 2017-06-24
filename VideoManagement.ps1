@@ -64,9 +64,9 @@ function Get-FileNameFromFullPath ($file) {
    Given the full path of a file, return all parent folders, but not the filename.
    For the example below, "c:\temp" would be returned.
 .Example
-   Get-FileNameFromFullPath "c:\temp\source.avi"
+   Remove-FileNameFromFullPath "c:\temp\source.avi"
 #>
-function Get-FileNameFromFullPath ($file) {
+function Remove-FileNameFromFullPath ($file) {
     [System.IO.Path]::GetDirectoryName($file)
 }
 
