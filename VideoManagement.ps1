@@ -139,15 +139,14 @@ function Convert-FromAviToMp4File ($aviSource, $mp4target, $handbrakeFolder) {
    Convert-AviBatchToMp4 -v "G:\VideosCollection\TheRest" -h "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
 #>
 function Convert-AviBatchToMp4 ($videoFolder, $handbrakeFolder) {
-   $logFile = "$currDir/Conversion.$(Get-Random).log"
+   $logFile = "$videoFolder/Conversion.$(Get-Random).log"
+   Write-Host "Logfile is at [$logfile]"
 
    Set-Location $videoFolder
    Get-FileTypeCount -folder $videoFolder -extension "avi" | Out-File -Append $logFile 
    Get-FileTypeCount -folder $videoFolder -extension "mp4" | Out-File -Append $logFile 
 
-   $aviList = gci -Filter *.avi
-   #$aviList = gci -Filter "2000-05-30 19.03.13 2001 Em grandad Wells paper plane.avi"
-
+   $aviList = Get-ChildItem -Filter *.avi
    $aviList | ForEach-Object {
        $currentAvi = $_
        $baseName = $currentAvi.BaseName
@@ -161,4 +160,4 @@ function Convert-AviBatchToMp4 ($videoFolder, $handbrakeFolder) {
    }
 }
 
-#cmd.exe '$handBrakeDir\HandBrakeCLI.exe -Z "Fast 1080p30" -i "G:\VideosCollection\Videos\2002-03-03 15.12.42 emma4.avi" -o "C:\MpegUtil\first2.mp4" --verbose=1'
+Convert-AviBatchToMp4 -v "c:\temp" -h "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
