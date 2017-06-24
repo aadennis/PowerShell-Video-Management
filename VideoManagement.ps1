@@ -35,7 +35,13 @@ function Copy-SourceTimeStampToTarget ($sourceAvi, $targetMp4) {
     $targetTime.CreationTime = $srcTime.CreationTime
 }
 
-function Count-FileType ($folder, $extension) {
+<#
+.Synopsis
+   Given the named folder, count the number of files of the named type
+.Example
+   Copy-SourceTimeStampToTarget "c:\temp\source.avi" "c:\temp\target.mp4"
+#>
+function Get-FileTypeCount ($folder, $extension) {
     $set = (gci $folder -Filter "*.$extension") | Measure-Object
     $setCount = $set.Count
     "In folder [$folder], there are [$setCount] files of type [$extension]"
@@ -103,8 +109,8 @@ $handBrakeDir= "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
 $logFile = "$currDir/Conversion.$(Get-Random).log"
 
 cd $currDir
-Count-FileType -folder $currDir -extension "avi" | Out-File -Append $logFile 
-Count-FileType -folder $currDir -extension "mp4" | Out-File -Append $logFile 
+Get-FileTypeCount -folder $currDir -extension "avi" | Out-File -Append $logFile 
+Get-FileTypeCount -folder $currDir -extension "mp4" | Out-File -Append $logFile 
 
 $aviList = gci -Filter *.avi
 #$aviList = gci -Filter "2000-05-30 19.03.13 2001 Em grandad Wells paper plane.avi"
