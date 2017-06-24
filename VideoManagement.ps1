@@ -85,7 +85,14 @@ function Get-VideoDuration ($fullPath) {
     $objFolder.GetDetailsOf($objFile, $LengthColumn)
 }
 
-function Convert-File ($source, $target) {
+<#
+.Synopsis
+   Convert an avi to mp4 file. It wraps AviToMp3 and provides metrics
+   about the conversion.
+.Example
+   Convert-VideoFile "c:\temp\source.avi" "c:\temp\target.mp4"
+#>
+function Convert-VideoFile ($aviSource, $mp4target) {
     $source
     $target
     start-sleep 2
