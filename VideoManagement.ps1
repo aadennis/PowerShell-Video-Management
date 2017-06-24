@@ -50,7 +50,7 @@ function Get-FileTypeCount ($folder, $extension) {
 
 <#
 .Synopsis
-   Given the full path of a file, returns its name only, including extension.
+   Given the full path of a file, return its name only, including extension.
    For the example below, "source.avi" would be returned.
 .Example
    Get-FileNameFromFullPath "c:\temp\source.avi"
@@ -59,7 +59,14 @@ function Get-FileNameFromFullPath ($file) {
     Split-Path -Path $file -Leaf
 }
 
-function Remove-FileNameFromFullPath ($file) {
+<#
+.Synopsis
+   Given the full path of a file, return all parent folders, but not the filename.
+   For the example below, "c:\temp" would be returned.
+.Example
+   Get-FileNameFromFullPath "c:\temp\source.avi"
+#>
+function Get-FileNameFromFullPath ($file) {
     [System.IO.Path]::GetDirectoryName($file)
 }
 
