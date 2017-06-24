@@ -7,6 +7,7 @@
    Right now, these are hard-coded for simplicity in preference to flexibility.
 .Example
    AviToMp3 "c:\temp\source.avi" "c:\temp\target.mp4"
+   AviToMp3 -sourceAvi $source -targetMp4 $target
 #>
 function AviToMp3 ($sourceAvi, $targetMp4) {
     $cmd = "$handBrakeDir\HandBrakeCLI.exe"
