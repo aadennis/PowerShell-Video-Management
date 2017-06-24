@@ -1,11 +1,3 @@
-# Given a folder with a set of avi files, convert each of those files to mp4 format,in the same folder.
-# If the target mp4 name already exists, then skip.
-# Following the conversion the file creation and amendment times get copied from the source/avi to the target/mp4.
-# And finally, the target name (minus extension) is copied to the clipboard so that you can check the details in Explorer/search.
-# The rootnames rename the same, only the extension changes.
-# https://blogs.technet.microsoft.com/heyscriptingguy/2012/06/01/use-powershell-to-modify-file-access-time-stamps/
-
-
 function AviToMp3 ($sourceAvi, $targetMp4) {
     $cmd = "$handBrakeDir\HandBrakeCLI.exe"
     $presetSwitch = "-Z"
@@ -78,6 +70,13 @@ function Convert-File ($source, $target) {
 }
 
 # Entry point...
+# Given a folder with a set of avi files, convert each of those files to mp4 format,in the same folder.
+# If the target mp4 name already exists, then skip.
+# Following the conversion the file creation and amendment times get copied from the source/avi to the target/mp4.
+# And finally, the target name (minus extension) is copied to the clipboard so that you can check the details in Explorer/search.
+# The rootnames rename the same, only the extension changes.
+# https://blogs.technet.microsoft.com/heyscriptingguy/2012/06/01/use-powershell-to-modify-file-access-time-stamps/
+
 
 $currDir = "G:\VideosCollection\TheRest"
 $handBrakeDir= "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
@@ -101,5 +100,6 @@ $aviList | % {
     }
     Copy-SourceTimeStampToTarget -sourceAvi $source -targetMp4 $target
 }
+
 
 #cmd.exe '$handBrakeDir\HandBrakeCLI.exe -Z "Fast 1080p30" -i "G:\VideosCollection\Videos\2002-03-03 15.12.42 emma4.avi" -o "C:\MpegUtil\first2.mp4" --verbose=1'
