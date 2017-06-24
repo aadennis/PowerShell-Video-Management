@@ -18,6 +18,15 @@ function AviToMp3 ($sourceAvi, $targetMp4) {
     & $cmd $presetSwitch $presetValue -i $sourceAvi -o $targetMp4 $verboseSwitch
 }
 
+<#
+.Synopsis
+   Copy the timestamp from a source AVI file to the converted equivalent MP4 file.
+.Description
+   The purpose is so that I can easily associate the AVI and the equivalent MP4 file by timestamp, 
+   when sorting or searching.
+.Example
+   Copy-SourceTimeStampToTarget "c:\temp\source.avi" "c:\temp\target.mp4"
+#>
 function Copy-SourceTimeStampToTarget ($sourceAvi, $targetMp4) {
     $srcTime = Get-Item  $sourceAvi
     $targetTime = Get-Item $targetMp4
