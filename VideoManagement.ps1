@@ -2,15 +2,15 @@
 .Synopsis
    Convert a file in avi (i.e. video format) to mp4
 .Description
-   As synopsis, plus the function depends on having the Handbrake CLI installed at the location $handBrakeDir\HandBrakeCLI.exe
+   As synopsis, plus the function depends on having the Handbrake CLI installed at the location $handBrakeFolder\HandBrakeCLI.exe
    The variables $presetSwitch, $presetValue, $verboseSwitch take values of meaning to Handbrake.
    Right now, these are hard-coded for simplicity in preference to flexibility.
 .Example
-   AviToMp4 "c:\temp\source.avi" "c:\temp\target.mp4"
-   AviToMp4 -sourceAvi $source -targetMp4 $target
+   AviToMp4 "c:\temp\source.avi" "c:\temp\target.mp4" -h $handbrakeFolder
+   AviToMp4 -sourceAvi $source -targetMp4 $target -h $handbrakeFolder
 #>
-function AviToMp4 ($sourceAvi, $targetMp4) {
-    $cmd = "$handBrakeDir\HandBrakeCLI.exe"
+function AviToMp4 ($sourceAvi, $targetMp4, $handbrakeFolder) {
+    $cmd = "$handbrakeFolder\HandBrakeCLI.exe"
     $presetSwitch = "-Z"
     $presetValue = "Fast 1080p30"
     #$presetValue = "HQ 1080p30 Surround"
@@ -92,12 +92,12 @@ function Get-VideoDuration ($fullPath) {
 .Example
    Convert-FromAviToMp4File "c:\temp\source.avi" "c:\temp\target.mp4"
 #>
-function Convert-FromAviToMp4File ($aviSource, $mp4target) {
+function Convert-FromAviToMp4File ($aviSource, $mp4target, $handbrakeFolder) {
     $source
     $target
     start-sleep 2
     $startTime = Get-Date
-    AviToMp3 -sourceAvi $source -targetMp4 $target
+    AviToMp4 -sourceAvi $source -targetMp4 $target -h $handbrakeFolder
     $endTime = Get-Date
     $secondsToConvert = [int] ($endTime - $startTime).TotalSeconds
     Get-Date | Out-File -Append $logFile
@@ -145,14 +145,14 @@ function Convert-AviBatchToMp4 ($videoFolder, $handbrakeFolder) {
    $aviList = gci -Filter *.avi
    #$aviList = gci -Filter "2000-05-30 19.03.13 2001 Em grandad Wells paper plane.avi"
 
-   $aviList | % {
+   $aviList | ForEach-Object {
        $currentAvi = $_
        $baseName = $currentAvi.BaseName
        $source = "$videoFolder/$baseName.avi"
        $target = "$videoFolder/$baseName.mp4"
 
        if (!( Test-Path $target)) {
-           Convert-File $source $target
+           Convert-FromAviToMp4File $source $target $handbrakeFolder
        }
        Copy-SourceTimeStampToTarget -sourceAvi $source -targetMp4 $target
    }
