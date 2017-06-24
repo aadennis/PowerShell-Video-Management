@@ -39,7 +39,7 @@ function Copy-SourceTimeStampToTarget ($sourceAvi, $targetMp4) {
 .Synopsis
    Given the named folder, count the number of files of the named type
 .Example
-   Copy-SourceTimeStampToTarget "c:\temp\source.avi" "c:\temp\target.mp4"
+   Get-FileTypeCount "c:\temp" "mp4"
 #>
 function Get-FileTypeCount ($folder, $extension) {
     $set = (gci $folder -Filter "*.$extension") | Measure-Object
