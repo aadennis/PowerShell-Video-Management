@@ -5,9 +5,6 @@
 # The rootnames rename the same, only the extension changes.
 # https://blogs.technet.microsoft.com/heyscriptingguy/2012/06/01/use-powershell-to-modify-file-access-time-stamps/
 
-$currDir = "G:\VideosCollection\TheRest"
-$handBrakeDir= "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
-$logFile = "$currDir/Conversion.$(Get-Random).log"
 
 function AviToMp3 ($sourceAvi, $targetMp4) {
     $cmd = "$handBrakeDir\HandBrakeCLI.exe"
@@ -81,6 +78,10 @@ function Convert-File ($source, $target) {
 }
 
 # Entry point...
+
+$currDir = "G:\VideosCollection\TheRest"
+$handBrakeDir= "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
+$logFile = "$currDir/Conversion.$(Get-Random).log"
 
 cd $currDir
 Count-FileType -folder $currDir -extension "avi" | Out-File -Append $logFile 
