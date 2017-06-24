@@ -42,7 +42,7 @@ function Copy-SourceTimeStampToTarget ($sourceAvi, $targetMp4) {
    Get-FileTypeCount "c:\temp" "mp4"
 #>
 function Get-FileTypeCount ($folder, $extension) {
-    $set = (gci $folder -Filter "*.$extension") | Measure-Object
+    $set = (Get-ChildItem $folder -Filter "*.$extension") | Measure-Object
     $setCount = $set.Count
     "In folder [$folder], there are [$setCount] files of type [$extension]"
     start-sleep 2
@@ -138,7 +138,7 @@ function Convert-FromAviToMp4File ($aviSource, $mp4target, $handbrakeFolder) {
 function Convert-AviBatchToMp4 ($videoFolder, $handbrakeFolder) {
    $logFile = "$currDir/Conversion.$(Get-Random).log"
 
-   cd $videoFolder
+   Set-Location $videoFolder
    Get-FileTypeCount -folder $videoFolder -extension "avi" | Out-File -Append $logFile 
    Get-FileTypeCount -folder $videoFolder -extension "mp4" | Out-File -Append $logFile 
 
