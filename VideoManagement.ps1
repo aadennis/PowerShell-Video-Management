@@ -87,7 +87,7 @@ function Get-VideoDuration ($fullPath) {
 
 <#
 .Synopsis
-   Convert an avi to mp4 file. It wraps AviToMp3 and provides metrics
+   Convert an avi to mp4 file. It wraps AviToMp4 and provides metrics
    about the conversion.
 .Example
    Convert-FromAviToMp4File "c:\temp\source.avi" "c:\temp\target.mp4"
