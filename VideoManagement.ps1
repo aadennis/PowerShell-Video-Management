@@ -6,10 +6,10 @@
    The variables $presetSwitch, $presetValue, $verboseSwitch take values of meaning to Handbrake.
    Right now, these are hard-coded for simplicity in preference to flexibility.
 .Example
-   AviToMp3 "c:\temp\source.avi" "c:\temp\target.mp4"
-   AviToMp3 -sourceAvi $source -targetMp4 $target
+   AviToMp4 "c:\temp\source.avi" "c:\temp\target.mp4"
+   AviToMp4 -sourceAvi $source -targetMp4 $target
 #>
-function AviToMp3 ($sourceAvi, $targetMp4) {
+function AviToMp4 ($sourceAvi, $targetMp4) {
     $cmd = "$handBrakeDir\HandBrakeCLI.exe"
     $presetSwitch = "-Z"
     $presetValue = "Fast 1080p30"
