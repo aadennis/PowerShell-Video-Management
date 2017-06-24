@@ -125,13 +125,16 @@ function Convert-FromAviToMp4File ($aviSource, $mp4target, $handbrakeFolder) {
 
 <#
 .Synopsis
-   Convert a batch of avi files to mp4 file.
+   [ENTRY POINT]
+   Convert a batch of avi files to mp4 format with the same name and location, apart from the extension.
 .Description
-   Given a folder with a set of avi files, convert each of those files to mp4 format,in the same folder.
+   Given a folder with a set of avi files, convert each of those files to mp4 format, in the same folder.
    If the target mp4 name already exists, then skip.
    Following the conversion the file creation and amendment times get copied from the source/avi to the target/mp4.
    And finally, the target name (minus extension) is copied to the clipboard so that you can check the details in Explorer/search.
    The rootnames rename the same, only the extension changes.
+   Dependencies: Handbrake CLI already installed in the given location.
+   See - https://handbrake.fr/downloads2.php
 .Example
    Convert-AviBatchToMp4 -v "G:\VideosCollection\TheRest" -h "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
 #>
