@@ -2,7 +2,9 @@
 .Synopsis
    Convert a file in avi (i.e. video format) to mp4
 .Description
-   As synopsis, plus the function depends on having the Handbrake CLI installed
+   As synopsis, plus the function depends on having the Handbrake CLI installed at the location $handBrakeDir\HandBrakeCLI.exe
+   The variables $presetSwitch, $presetValue, $verboseSwitch take values of meaning to Handbrake.
+   Right now, these are hard-coded for simplicity in preference to flexibility.
 .Example
    AviToMp3 "c:\temp\source.avi" "c:\temp\target.mp4"
 #>
