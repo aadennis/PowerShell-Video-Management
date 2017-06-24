@@ -70,6 +70,13 @@ function Remove-FileNameFromFullPath ($file) {
     [System.IO.Path]::GetDirectoryName($file)
 }
 
+<#
+.Synopsis
+   With the assumption that the passed file is of type video, return the 
+   (COM-based) formatted string that gives a video's duration.
+.Example
+   Get-VideoDuration "c:\temp\source.avi"
+#>
 function Get-VideoDuration ($fullPath) {
     $LengthColumn = 27
     $objShell = New-Object -ComObject Shell.Application 
