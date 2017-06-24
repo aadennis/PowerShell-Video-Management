@@ -99,28 +99,32 @@ function Convert-FromAviToMp4File ($aviSource, $mp4target, $handbrakeFolder) {
     $startTime = Get-Date
     AviToMp4 -sourceAvi $source -targetMp4 $target -h $handbrakeFolder
     $endTime = Get-Date
-    $secondsToConvert = [int] ($endTime - $startTime).TotalSeconds
+    $secondsToConvert = Round-Number(($endTime - $startTime).TotalSeconds)
     Get-Date | Out-File -Append $logFile
     "Completed conversion of [$source] in [$secondsToConvert] seconds" | Out-File -Append $logFile 
-    $sourceSizeInMb = [int] ((Get-Item -Path $source).Length/1MB)  
-    $targetSizeInMb = [int] ((Get-Item -Path $target).Length/1MB)  
+    
+    $sourceSizeInMb = Round-Number((Get-Item -Path $source).Length/1MB)
+    $targetSizeInMb = Round-Number((Get-Item -Path $target).Length/1MB)
     "sourceSizeInMb: [$sourceSizeInMb]" | Out-File -Append $logFile 
     "targetSizeInMb: [$targetSizeInMb]" | Out-File -Append $logFile 
 
-    $conversionRate = $sourceSizeInMb/$secondsToConvert
+    $conversionRate =  Round-Number($sourceSizeInMb/$secondsToConvert)
     "Conversion rate was [$conversionRate]MB per second" | Out-File -Append $logFile 
-    $compressionRatio = $sourceSizeInMb/$targetSizeInMb
+    $compressionRatio =  Round-Number($sourceSizeInMb/$targetSizeInMb)
     "Compression ratio was $compressionRatio ([$sourceSizeInMb]/[$targetSizeInMb])" | Out-File -Append $logFile 
     $aviDuration =  Get-VideoDuration -fullPath $source
     $mp4Duration =  Get-VideoDuration -fullPath $target
     "Avi duration: [$aviDuration]" | Out-File -Append $logFile 
     "MP4 duration: [$mp4Duration] (these should match)" | Out-File -Append $logFile 
 
-
     Get-Date | Out-File -Append $logFile
 
     $baseName | clip.exe 
     start-sleep 5
+}
+
+function Round-Number ($number) {
+    [System.Math]::Round($number,2)
 }
 
 <#
@@ -160,4 +164,4 @@ function Convert-AviBatchToMp4 ($videoFolder, $handbrakeFolder) {
    }
 }
 
-Convert-AviBatchToMp4 -v "c:\temp" -h "C:\temp\HandBrakeCLI-1.0.7-win-x86_64"
+Convert-AviBatchToMp4 -v "C:\VideoFiles" -h "C:\Handbrake"
